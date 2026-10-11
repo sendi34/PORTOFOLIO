@@ -13,7 +13,7 @@ export function ProjectsGrid({ items }) {
 
   return (
     <div>
-      <div className="flex flex-wrap justify-center gap-x-7 gap-y-2 mb-9 sm:mb-12">
+      <div className="flex flex-wrap justify-center gap-x-7 gap-y-2 mb-10 sm:mb-14">
         {categories.map((cat) => {
           const active = cat === filter;
           return (
@@ -21,7 +21,7 @@ export function ProjectsGrid({ items }) {
               key={cat}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`relative text-sm sm:text-base font-medium pb-1.5 transition-colors ${
+              className={`relative text-sm sm:text-base font-semibold pb-2 transition-colors ${
                 active ? "text-black" : "text-black/40 hover:text-black/70"
               }`}
             >
@@ -37,7 +37,7 @@ export function ProjectsGrid({ items }) {
         })}
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <AnimatePresence mode="popLayout">
           {shown.map((p, i) => (
             <motion.a

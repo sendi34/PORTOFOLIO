@@ -36,12 +36,12 @@ const BRAND_PATHS = {
 const PROFILE = {
   name: "Sendi Pratama",
   role: "IT Support & Web Developer",
+  location: "Banjarbaru, Indonesia",
   photo: "/hero-photo.jpg",
   tagline:
     "Lulusan Teknik Informatika dengan pengalaman membangun aplikasi web dan dukungan teknis IT secara terstruktur.",
   bio:
     "Lulusan Teknik Informatika yang telah menyelesaikan sidang skripsi dan saat ini menunggu proses yudisium/wisuda. Memiliki pengetahuan dasar IT Support, IT Helpdesk, pengembangan aplikasi web, pengelolaan data, dan administrasi. Memahami troubleshooting hardware/software, instalasi sistem, jaringan dasar, serta pengembangan website menggunakan Laravel, PHP, MySQL, dan React.",
-  location: "Banjarbaru, Kalimantan Selatan",
   email: "sendipratama302@gmail.com",
   cvUrl: "/cv-sendi-pratama.pdf",
 };
@@ -200,23 +200,23 @@ function Reveal({ children, className = "", delay = 0 }) {
 function SkillsList({ groups }) {
   return (
     <div>
-      <span className="inline-block text-[11px] font-semibold tracking-[0.2em] uppercase text-black/40 mb-6">
+      <span className="inline-block text-[11px] font-semibold tracking-[0.2em] uppercase text-black/40 mb-8">
         Kompetensi Utama
       </span>
-      <div className="space-y-8">
+      <div className="divide-y divide-black/6">
         {groups.map((g, i) => (
           <Reveal key={g.num} delay={i * 60}>
-            <div className="flex items-start gap-4">
-              <span className="font-display text-3xl font-semibold text-lime-300 shrink-0 tabular-nums leading-none">
+            <div className="flex items-start gap-5 py-5">
+              <span className="font-display text-2xl font-bold text-lime-400 shrink-0 tabular-nums leading-none w-8 mt-0.5">
                 {g.num}
               </span>
               <div className="flex-1 min-w-0">
-                <h3 className="font-display text-xl font-semibold">{g.title}</h3>
-                <div className="flex flex-wrap gap-2 mt-3">
+                <h3 className="font-display text-base font-bold tracking-wide text-[#141414]">{g.title}</h3>
+                <div className="flex flex-wrap gap-1.5 mt-2.5">
                   {g.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="text-xs font-medium px-3 py-1.5 rounded-full border border-black/15 text-black/60"
+                      className="text-[11px] font-semibold px-2.5 py-1 bg-black/5 text-black/55 rounded-md"
                     >
                       {skill}
                     </span>
@@ -303,7 +303,7 @@ function PinnedSkillsStack({ groups }) {
                   {active.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full border border-black/15 text-black/60"
+                      className="text-xs sm:text-sm font-semibold px-3 py-1.5 bg-black/5 text-black/55 rounded-md"
                     >
                       {skill}
                     </span>
@@ -469,6 +469,30 @@ function SocialDock() {
   );
 }
 
+function ScrollIndicator() {
+  const { scrollYProgress } = useScroll();
+  // tetap terlihat sampai hampir di dasar halaman, lalu menghilang
+  const opacity = useTransform(scrollYProgress, [0, 0.92, 1], [1, 1, 0]);
+
+  return (
+    <motion.div
+      style={{ opacity }}
+      className="fixed bottom-6 sm:bottom-10 left-5 sm:left-10 z-30 flex items-center gap-3 pointer-events-none text-white mix-blend-difference"
+    >
+      <div className="h-8 w-px bg-white/30 relative overflow-hidden rounded-full">
+        <motion.div
+          className="absolute top-0 left-0 right-0 h-full bg-white rounded-full origin-top"
+          animate={{ scaleY: [0, 1, 0], y: ["0%", "0%", "100%"] }}
+          transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+        />
+      </div>
+      <span className="text-[10px] font-semibold tracking-[0.2em] uppercase">
+        Scroll
+      </span>
+    </motion.div>
+  );
+}
+
 export default function PortfolioMinimal() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 600], ["0%", "8%"]);
@@ -479,8 +503,9 @@ export default function PortfolioMinimal() {
       style={{ overflowX: "clip" }}
     >
       <SmoothCursor />
+      <ScrollIndicator />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
         @font-face {
           font-family: 'Cantry';
@@ -491,9 +516,9 @@ export default function PortfolioMinimal() {
                url('/fonts/Cantry.ttf') format('truetype');
         }
 
-        .font-sans { font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif; }
-        .font-display { font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.01em; }
-        .font-cantry { font-family: 'Cantry', 'Manrope', ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.015em; }
+        .font-sans { font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; }
+        .font-display { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.01em; }
+        .font-cantry { font-family: 'Cantry', 'DM Sans', ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.015em; }
         html { scroll-behavior: smooth; }
         @media (min-width: 768px) {
           * { cursor: none !important; }
@@ -504,73 +529,108 @@ export default function PortfolioMinimal() {
       <section
         id="top"
         className="relative w-full overflow-hidden bg-[#8B8B87]"
-        style={{ height: "100svh", minHeight: "560px", maxHeight: "900px" }}
+        style={{ height: "100svh", minHeight: "560px", maxHeight: "960px" }}
       >
         <SocialDock />
+
+        {/* Foto dengan parallax */}
         <motion.img
           src={PROFILE.photo}
           alt={PROFILE.name}
           style={{ y }}
           className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-90"
         />
-        <div className="absolute inset-0 bg-black/25" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/50" />
-        <div className="absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-black/85 via-black/45 to-transparent" />
 
-        <div className="absolute top-4 right-4 sm:top-8 sm:right-8 text-right max-w-[45%] sm:max-w-none">
-          <p className="text-[10px] sm:text-sm font-medium tracking-[0.14em] sm:tracking-[0.18em] uppercase text-white/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
-            PORTFOLIO
+        {/* Layer gelap bertingkat */}
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+
+        {/* Pojok kanan atas — label */}
+        <div className="absolute top-5 right-5 sm:top-8 sm:right-8 text-right">
+          <p className="text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase text-white/60">
+            Portfolio
+          </p>
+          <p className="text-[10px] sm:text-xs font-medium tracking-[0.14em] text-white/35 mt-0.5">
+            {new Date().getFullYear()}
           </p>
         </div>
 
-        <div className="absolute bottom-46 left-5 right-5 sm:bottom-48 sm:left-10 sm:right-auto sm:max-w-xl">
-          <div className="mb-3 sm:mb-4 flex items-center gap-2.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-lime-300 shadow-[0_0_10px_2px_rgba(190,242,100,0.7)]" />
-            <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.16em] sm:tracking-[0.18em] text-white/85 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+        {/* Konten utama — posisi di bawah kiri (ubah pb untuk naik/turun) */}
+        <div className="absolute bottom-0 left-0 right-0 px-5 sm:px-10 pb-24 sm:pb-45">
+
+          {/* Label role — kecil di atas nama */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+            className="flex items-center gap-2.5 mb-3 sm:mb-4"
+          >
+            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-lime-300 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
               {PROFILE.role}
             </span>
+          </motion.div>
+
+          {/* Nama — sangat besar */}
+          <div className="overflow-hidden">
+            <motion.h1
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: "0%", opacity: 1 }}
+              transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+              className="font-cantry text-white font-bold "
+              style={{ fontSize: "clamp(2.8rem, 8vw, 7rem)", lineHeight: 1.15, letterSpacing: "-0.01em" }}
+            >
+              Sendi Pratama
+            </motion.h1>
           </div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-            className="font-cantry text-white font-semibold leading-[1.1] text-[5vw] sm:text-3xl md:text-4xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] break-words"
-          >
-            {PROFILE.name} · Profesional IT dengan fokus pada web development dan dukungan teknis.
-          </motion.h1>
-
-          <a
-            href={PROFILE.cvUrl}
-            className="mt-4 inline-flex items-center gap-2 bg-white/90 text-black text-xs sm:text-sm font-semibold px-3.5 py-2 rounded-full hover:bg-white transition-colors"
-          >
-            <Download size={14} /> Download CV
-          </a>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-20">
-        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-16 items-start">
+      {/* ── RINGKASAN ─────────────────────────────────────────── */}
+      <section id="ringkasan" className="max-w-6xl mx-auto px-5 sm:px-8 pt-16 sm:pt-28 pb-20">
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-20 items-start">
           <Reveal className="lg:sticky lg:top-24 lg:self-start">
-            <span className="inline-block text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-black/40 mb-4">
-              Ringkasan
+            {/* Label */}
+            <span className="inline-block text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35 mb-5">
+              Tentang Saya
             </span>
-            <h2 className="font-display text-4xl sm:text-5xl font-semibold leading-[1.05]">
+
+            {/* Nama besar */}
+            <h2 className="font-display text-5xl sm:text-6xl font-bold leading-[1.02] tracking-tight text-[#141414]">
               {PROFILE.name}
             </h2>
-            <p className="mt-3 inline-flex items-center gap-2 text-sm font-semibold px-3 py-1.5 rounded-full bg-lime-300 text-black">
-              {PROFILE.role}
-            </p>
 
-            <p className="text-black/60 text-base leading-relaxed mt-6 max-w-md">
+            {/* Role dengan garis kiri */}
+            <div className="flex items-center gap-3 mt-5">
+              <span className="h-5 w-[3px] bg-lime-400 rounded-full shrink-0" />
+              <p className="text-sm sm:text-base font-semibold text-black/70">{PROFILE.role}</p>
+            </div>
+
+            {/* Divider */}
+            <div className="mt-6 h-px w-full bg-black/8" />
+
+            {/* Bio */}
+            <p className="text-black/55 text-sm sm:text-base leading-[1.8] mt-6">
               {PROFILE.bio}
             </p>
 
-            <div className="flex items-center gap-2 text-sm font-medium text-black/50 mt-6">
-              <MapPin size={15} /> {PROFILE.location}
+            {/* Lokasi */}
+            <div className="flex items-center gap-2 text-sm font-medium text-black/45 mt-5">
+              <MapPin size={14} className="shrink-0 text-lime-500" />
+              {PROFILE.location}
             </div>
+
+            {/* Download CV */}
+            <a
+              href={PROFILE.cvUrl}
+              className="mt-6 inline-flex items-center gap-2 text-sm font-bold px-5 py-2.5 bg-[#141414] text-white rounded-full hover:bg-black transition-colors"
+            >
+              <Download size={14} />
+              Download CV
+            </a>
           </Reveal>
 
+          {/* Skills — mobile: list, desktop: pinned stack */}
           <div className="lg:hidden">
             <SkillsList groups={SKILL_GROUPS} />
           </div>
@@ -580,134 +640,228 @@ export default function PortfolioMinimal() {
         </div>
       </section>
 
-      <section id="pengalaman" className="max-w-6xl mx-auto px-5 sm:px-8 py-10 sm:py-14 border-t border-black/5">
-        <Reveal className="text-center mb-9 sm:mb-12">
-          <h2 className="font-display text-3xl sm:text-5xl font-semibold">
-            Pengalaman Kerja
-          </h2>
-          <span className="block mx-auto mt-3 h-1 w-12 rounded-full bg-lime-400" />
+      {/* ── PENGALAMAN KERJA ──────────────────────────────────── */}
+      <section id="pengalaman" className="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20 border-t border-black/6">
+
+        {/* Section heading */}
+        <Reveal className="mb-12 sm:mb-16">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35">Riwayat</span>
+              <h2 className="font-display text-4xl sm:text-6xl font-bold leading-tight tracking-tight text-[#141414] mt-1">
+                Pengalaman<br className="hidden sm:block" /> Kerja
+              </h2>
+            </div>
+            <span className="hidden sm:block h-px flex-1 bg-black/8 mb-4" />
+          </div>
         </Reveal>
 
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
-          {EXPERIENCES.map((exp, i) => (
-            <Reveal key={exp.company} delay={i * 80}>
-              <article className="rounded-3xl bg-white p-6 sm:p-7 ring-1 ring-black/8 shadow-[0_14px_30px_-20px_rgba(0,0,0,0.35)]">
-                <div className="flex items-start justify-between gap-3">
-                  <span className="font-display text-2xl sm:text-3xl font-semibold text-lime-300">{exp.num}</span>
-                  <span className="text-xs sm:text-sm text-black/55 font-medium">{exp.period}</span>
+        {/* Timeline vertikal */}
+        <div className="relative">
+          {/* Garis timeline */}
+          <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-black/8" aria-hidden="true" />
+
+          <div className="space-y-10 sm:space-y-14">
+            {EXPERIENCES.map((exp, i) => (
+              <Reveal key={exp.company} delay={i * 100}>
+                <div className="flex gap-6 sm:gap-10 relative">
+                  {/* Dot */}
+                  <div className="shrink-0 relative z-10 mt-1.5">
+                    <div className="w-8 sm:w-12 h-8 sm:h-12 rounded-full bg-lime-300 flex items-center justify-center shadow-sm">
+                      <span className="font-display text-sm font-bold text-black">{exp.num}</span>
+                    </div>
+                  </div>
+
+                  {/* Konten */}
+                  <div className="flex-1 min-w-0 pb-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 mb-3">
+                      <h3 className="font-display text-lg sm:text-xl font-bold leading-tight text-[#141414]">
+                        {exp.company}
+                      </h3>
+                      <span className="shrink-0 text-xs font-semibold px-3 py-1 rounded-full bg-black/5 text-black/50 self-start sm:self-auto">
+                        {exp.period}
+                      </span>
+                    </div>
+                    <p className="text-sm font-semibold text-lime-600 mb-3">{exp.role}</p>
+                    <ul className="space-y-2">
+                      {exp.points.map((point) => (
+                        <li key={point} className="flex gap-2.5 text-sm sm:text-base text-black/55 leading-relaxed">
+                          <span className="mt-2 shrink-0 h-1.5 w-1.5 rounded-full bg-lime-400" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <h3 className="mt-3 text-lg sm:text-xl font-display font-semibold leading-tight">{exp.company}</h3>
-                <p className="text-sm sm:text-base text-black/70 italic font-medium mt-1">{exp.role}</p>
-                <ul className="mt-4 space-y-2 text-sm sm:text-base text-black/65 leading-relaxed list-disc list-inside">
-                  {exp.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              </article>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section id="portofolio" className="max-w-6xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
-        <Reveal className="text-center mb-9 sm:mb-12">
-          <h2 className="font-display text-3xl sm:text-5xl font-semibold">
-            Proyek Pilihan
-          </h2>
-          <span className="block mx-auto mt-3 h-1 w-12 rounded-full bg-lime-400" />
+      {/* ── PROYEK ─────────────────────────────────────────────── */}
+      <section id="portofolio" className="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20 border-t border-black/6">
+
+        {/* Heading proyek */}
+        <Reveal className="mb-10 sm:mb-14">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+            <div>
+              <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35">Karya</span>
+              <h2 className="font-display text-4xl sm:text-6xl font-bold leading-tight tracking-tight text-[#141414] mt-1">
+                Proyek Pilihan
+              </h2>
+            </div>
+          </div>
         </Reveal>
 
         <Reveal>
           <ProjectsGrid items={PROJECTS} />
         </Reveal>
 
-        <Reveal className="mt-16 sm:mt-24">
-          <div className="text-center mb-9 sm:mb-12">
-            <h3 className="font-display text-3xl sm:text-5xl font-semibold">
+        {/* Design Showcase */}
+        <Reveal className="mt-20 sm:mt-28">
+          <div className="mb-10 sm:mb-14">
+            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35">Visual</span>
+            <h3 className="font-display text-4xl sm:text-6xl font-bold leading-tight tracking-tight text-[#141414] mt-1">
               Design Showcase
             </h3>
-            <span className="block mx-auto mt-3 h-1 w-12 rounded-full bg-lime-400" />
           </div>
           <Carousel items={DESIGN_SHOWCASE} />
         </Reveal>
       </section>
 
-      <section id="education" className="max-w-6xl mx-auto px-5 sm:px-8 py-12 sm:py-16 border-t border-black/5">
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-14">
+      {/* ── PENDIDIKAN & SERTIFIKASI ──────────────────────────── */}
+      <section id="education" className="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20 border-t border-black/6">
+
+        {/* Heading */}
+        <Reveal className="mb-12 sm:mb-16">
+          <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35">Latar Belakang</span>
+          <h2 className="font-display text-4xl sm:text-6xl font-bold leading-tight tracking-tight text-[#141414] mt-1">
+            Pendidikan &amp; Sertifikasi
+          </h2>
+        </Reveal>
+
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-16">
+
+          {/* Pendidikan — timeline kecil */}
           <Reveal>
-            <span className="inline-block text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-black/40 mb-4">
+            <span className="inline-block text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35 mb-6">
               Pendidikan
             </span>
-            <div className="space-y-5">
-              {EDUCATION.map((item) => (
-                <article key={item.institution} className="rounded-2xl border border-black/10 bg-white p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="font-display text-xl font-semibold leading-tight">{item.institution}</h3>
-                      <p className="text-black/60 mt-1">{item.major}</p>
+            <div className="relative">
+              <div className="absolute left-3 top-0 bottom-0 w-px bg-black/8" aria-hidden="true" />
+              <div className="space-y-8">
+                {EDUCATION.map((item) => (
+                  <div key={item.institution} className="flex gap-5 relative">
+                    <div className="shrink-0 relative z-10 mt-1">
+                      <div className="w-6 h-6 rounded-full border-2 border-lime-400 bg-[#F5F3EF] flex items-center justify-center">
+                        <span className="w-2 h-2 rounded-full bg-lime-400 block" />
+                      </div>
                     </div>
-                    <p className="text-sm font-medium text-black/50 whitespace-nowrap">{item.period}</p>
+                    <div className="flex-1 pb-2">
+                      <p className="text-[11px] font-semibold text-black/40 mb-1">{item.period}</p>
+                      <h3 className="font-display text-base sm:text-lg font-bold leading-snug text-[#141414]">
+                        {item.institution}
+                      </h3>
+                      <p className="text-sm text-black/55 mt-0.5 font-medium">{item.major}</p>
+                    </div>
                   </div>
-                </article>
-              ))}
+                ))}
+              </div>
             </div>
           </Reveal>
 
+          {/* Sertifikasi — numbered list */}
           <Reveal delay={100}>
-            <span className="inline-block text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-black/40 mb-4">
+            <span className="inline-block text-[11px] font-semibold tracking-[0.2em] uppercase text-black/35 mb-6">
               Sertifikasi
             </span>
-            <article className="rounded-2xl border border-black/10 bg-white p-5 sm:p-6">
-              <ul className="space-y-3 text-sm sm:text-base text-black/65 leading-relaxed list-disc list-inside">
-                {CERTIFICATIONS.map((cert) => (
-                  <li key={cert}>{cert}</li>
-                ))}
-              </ul>
-            </article>
+            <div className="space-y-0 divide-y divide-black/6">
+              {CERTIFICATIONS.map((cert, i) => (
+                <div key={cert} className="flex gap-4 py-4">
+                  <span className="shrink-0 font-display text-base font-bold text-lime-400 tabular-nums w-6">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p className="text-sm sm:text-base text-black/60 leading-relaxed">{cert}</p>
+                </div>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>
 
+      {/* ── KONTAK / FOOTER ──────────────────────────────────── */}
       <section
         id="contact"
-        className="relative w-full mt-4 mb-0 overflow-hidden bg-[#D9DCE6]"
-        style={{
-          clipPath: "polygon(0 0, 90% 0, 100% 6%, 100% 100%, 0 100%)",
-        }}
+        className="relative w-full overflow-hidden bg-[#141414] mt-4"
       >
-        <div className="relative px-5 sm:px-10 pt-8 sm:pt-10 pb-6 sm:pb-8 min-h-[420px] sm:min-h-[440px] flex flex-col">
-          <Reveal className="max-w-[260px] sm:max-w-[320px]">
-            <p className="text-sm sm:text-base font-semibold leading-snug text-black/80">
-              Terima kasih sudah melihat portofolio saya. Saya siap berdiskusi untuk peluang kerja atau kolaborasi.
+        {/* Aksen lingkaran dekoratif */}
+        <div
+          className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full border border-white/5 pointer-events-none"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute -bottom-20 -left-20 w-[300px] h-[300px] rounded-full border border-white/5 pointer-events-none"
+          aria-hidden="true"
+        />
+
+        <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pt-14 sm:pt-20 pb-10 sm:pb-14 flex flex-col min-h-[420px] sm:min-h-[480px]">
+
+          {/* Tagline atas */}
+          <Reveal>
+            <p className="text-sm sm:text-base font-medium text-white/40 max-w-xs sm:max-w-sm leading-relaxed">
+              Terima kasih sudah melihat portofolio saya.{" "}
+              <span className="text-white/70">Saya terbuka untuk peluang kerja atau kolaborasi.</span>
             </p>
           </Reveal>
 
           <div className="flex-1" />
 
-          <Reveal delay={100} className="mb-6 sm:mb-10">
+          {/* Heading besar */}
+          <Reveal delay={80} className="mb-8 sm:mb-12">
             <h2
-              className="font-display font-semibold leading-[0.95] break-words"
-              style={{ fontSize: "clamp(2.25rem, 12vw, 4.5rem)" }}
+              className="font-display font-bold text-white leading-[0.95] tracking-tight"
+              style={{ fontSize: "clamp(2.8rem, 10vw, 6.5rem)" }}
             >
-              Hubungi Saya
+              Hubungi<br />
+              <span className="text-lime-400">Saya.</span>
             </h2>
           </Reveal>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p className="text-[11px] sm:text-xs text-black/50 order-2 sm:order-1">
-              © {new Date().getFullYear()} — {PROFILE.name.toUpperCase()}
+          {/* Email CTA + Social + Copyright */}
+          <Reveal delay={140}>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-white/10">
+              {/* Email button */}
+              <a
+                href={`mailto:${PROFILE.email}`}
+                className="inline-flex items-center gap-2 bg-lime-300 text-black text-sm font-bold px-5 py-3 rounded-full hover:bg-lime-200 transition-colors self-start"
+              >
+                <Mail size={14} className="shrink-0" />
+                <span className="truncate max-w-[220px] sm:max-w-none">{PROFILE.email}</span>
+              </a>
+
+              {/* Social icons */}
+              <div className="flex items-center gap-1">
+                {SOCIALS.map(({ icon, href, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target={href.startsWith("http") ? "_blank" : undefined}
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="h-9 w-9 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                  >
+                    <BrandIcon path={BRAND_PATHS[icon]} size={15} />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Copyright */}
+            <p className="text-[11px] text-white/25 mt-5">
+              © {new Date().getFullYear()} — {PROFILE.name.toUpperCase()}. All rights reserved.
             </p>
-            <a
-              href={`mailto:${PROFILE.email}`}
-              className="order-1 sm:order-2 inline-flex items-center gap-1.5 bg-lime-300 text-black text-[11px] sm:text-xs font-bold normal-case tracking-wide px-3 py-1.5 rounded-full border border-black/10 hover:bg-lime-200 transition-colors max-w-full"
-            >
-              <Mail size={12} className="shrink-0" />
-              <span className="truncate">
-                <span className="hidden sm:inline">EMAIL: </span>
-                {PROFILE.email}
-              </span>
-            </a>
-          </div>
+          </Reveal>
         </div>
       </section>
     </div>
