@@ -557,7 +557,7 @@ export default function PortfolioMinimal() {
         </div>
 
         {/* Konten utama — posisi di bawah kiri (ubah pb untuk naik/turun) */}
-        <div className="absolute bottom-0 left-0 right-0 px-5 sm:px-10 pb-24 sm:pb-45">
+        <div className="absolute bottom-0 left-0 right-0 px-5 sm:px-10 pb-32 sm:pb-45">
 
           {/* Label role — kecil di atas nama */}
           <motion.div
